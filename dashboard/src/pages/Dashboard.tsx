@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { triggerScan, listRepos, getSummary } from "../api/client";
 import type { RepoHealth, Summary } from "../types";
 import ScanForm from "../components/ScanForm";
@@ -8,11 +9,29 @@ import PassRateChart from "../components/PassRateChart";
 import RepoTable from "../components/RepoTable";
 
 export default function Dashboard() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [repos, setRepos] = useState<RepoHealth[]>([]);
   const [summary, setSummary] = useState<Summary | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastOwner, setLastOwner] = useState<string | null>(null);
+
+  const ownerParam = searchParams.get("owner");
+
+  // Reload data from backend when navigating back (owner in URL)
+  useEffect(() => {
+    if (!ownerParam) return;
+
+    setIsLoading(true);
+    Promise.all([listRepos(ownerParam), getSummary(ownerParam)])
+      .then(([repoData, summaryData]) => {
+        setRepos(repoData);
+        setSummary(summaryData);
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load data");
+      })
+      .finally(() => setIsLoading(false));
+  }, [ownerParam]);
 
   const handleScan = async (owner: string, type: "user" | "org") => {
     setIsLoading(true);
@@ -28,7 +47,7 @@ export default function Dashboard() {
 
       setRepos(repoData);
       setSummary(summaryData);
-      setLastOwner(owner);
+      setSearchParams({ owner });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "An unexpected error occurred";
@@ -94,7 +113,7 @@ export default function Dashboard() {
         </>
       )}
 
-      {lastOwner && <RepoTable repos={repos} />}
+      {ownerParam && <RepoTable repos={repos} />}
     </div>
   );
 }
