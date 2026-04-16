@@ -36,11 +36,13 @@ export default function RepoDetail() {
     );
   }
 
+  const backUrl = owner ? `/?owner=${encodeURIComponent(owner)}` : "/";
+
   if (error) {
     return (
       <div className="space-y-4">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate(backUrl)}
           className="text-sm text-blue-600 hover:text-blue-800 transition"
         >
           ← Back to Dashboard
@@ -60,7 +62,7 @@ export default function RepoDetail() {
   return (
     <div className="space-y-6">
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate(backUrl)}
         className="text-sm text-blue-600 hover:text-blue-800 transition"
       >
         ← Back to Dashboard
