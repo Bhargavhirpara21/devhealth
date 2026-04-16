@@ -53,7 +53,7 @@ export default function PassRateChart({ passRates }: PassRateChartProps) {
             width={140}
             tick={{ fontSize: 12 }}
           />
-          <Tooltip formatter={(value: number) => `${value}%`} />
+          <Tooltip formatter={(value) => `${value}%`} />
           <Bar dataKey="rate" radius={[0, 6, 6, 0]} barSize={24}>
             {data.map((entry, index) => (
               <Cell key={index} fill={rateColor(entry.rate)} />
