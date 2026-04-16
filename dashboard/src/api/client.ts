@@ -6,7 +6,7 @@ import type {
 } from "../types";
 
 // Base URL for API requests, set via environment variable
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL + "/api";
 
 class ApiError extends Error {
   status: number;
