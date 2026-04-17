@@ -1,5 +1,10 @@
 # 🛡️ DevHealth — GitHub Org Health & Security Dashboard
 
+## 🚀 Live Demo
+
+- Dashboard: [https://devhealth.vercel.app](https://devhealth.vercel.app)
+- API Health: [https://devhealth.onrender.com/api/health](https://devhealth.onrender.com/api/health)
+
 A developer-experience platform tool that scans GitHub repositories for health, security, and best-practice compliance — then surfaces results in a clean web dashboard.
 
 Built with **Go** (backend API + scanner), **TypeScript/React** (dashboard), and designed for **Azure** deployment.
@@ -101,7 +106,7 @@ curl -X POST http://localhost:8080/api/scan \
 | Frontend | React 18, TypeScript, Vite, Tailwind CSS, Recharts |
 | CI/CD | GitHub Actions |
 | Containerization | Docker, Docker Compose |
-| Cloud | Azure Container Apps, Azure Static Web Apps |
+| Cloud | Render (backend), Vercel (dashboard) |
 
 ## Project Structure
 
